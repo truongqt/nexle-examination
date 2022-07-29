@@ -1,0 +1,22 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "assets": "./src/assets",
+          "components": "./src/components",
+          "navigation": "./src/navigation",
+          "redux-manager": "./src/redux-manager",
+          "screens": "./src/screens",
+          "utils": "./src/utils",
+          "helpers": "./src/utils/helpers",
+          "services": "./src/utils/services"
+        }
+      }
+    ]
+  ]
+}
