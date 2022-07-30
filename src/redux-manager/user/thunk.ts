@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ENDPOINTS } from "../../utils/helpers/constants";
+import { ENDPOINTS, SAVED_USER_PROFILE } from "../../utils/helpers/constants";
+import storage from "../../utils/helpers/storage";
 import { api } from "../../utils/services/apis";
+import { UserProfile } from "./slice";
 
 export interface SignInRequestPayload {
     email: string;
@@ -25,6 +27,7 @@ export const signUp = createAsyncThunk('signUp', async (requestPayload: SignUpRe
 export const signIn = createAsyncThunk('signIn', async (requestPayload: SignInRequestPayload, { rejectWithValue }) => {
     const response = await api.post(ENDPOINTS.SIGN_IN, requestPayload);
     if (response.ok) {
+        await storage.save(SAVED_USER_PROFILE, response.data as UserProfile); 
         return response.data;
     }
     else {

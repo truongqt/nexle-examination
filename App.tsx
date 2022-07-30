@@ -1,15 +1,12 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
 import {Provider} from 'react-redux';
+import AppNavigation from './src/navigation/AppNavigation';
 import rootStore from './src/redux-manager/root-store';
-import AuthenticationScreen from './src/screens/Authentication/AuthenticationScreen';
 
 const App = () => {
   return (
     <Provider store={rootStore}>
-      <SafeAreaView style={{flex: 1}}>
-        <AuthenticationScreen />
-      </SafeAreaView>
+      <AppNavigation />
     </Provider>
   );
 };

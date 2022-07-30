@@ -1,10 +1,8 @@
-import { create } from 'apisauce';
+import { create, DEFAULT_HEADERS } from 'apisauce';
 import { BASE_URL } from '../helpers/constants';
 
 export const api = create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: DEFAULT_HEADERS,
   timeout: 30000,
 });
