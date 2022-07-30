@@ -2,9 +2,9 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import AuthenticationScreen from '../screens/Authentication/AuthenticationScreen';
+import AuthenticationScreen from 'screens/Authentication/AuthenticationScreen';
 import {AuthenticationScreenName, StartingScreenName} from './ScreenProps';
-import StartingScreen from '../screens/Starting/StartingScreen';
+import StartingScreen from 'screens/Starting/StartingScreen';
 
 const Stack = createStackNavigator();
 

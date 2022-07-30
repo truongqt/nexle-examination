@@ -1,5 +1,5 @@
 import { create, DEFAULT_HEADERS } from 'apisauce';
-import { BASE_URL } from '../helpers/constants';
+import { BASE_URL } from 'utils/helpers/constants';
 
 export const api = create({
   baseURL: BASE_URL,

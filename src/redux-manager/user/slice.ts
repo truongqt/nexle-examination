@@ -1,7 +1,6 @@
 
-import { createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { CommonFetchParams, RequestError } from '../common-type';
-import { RootState } from '../root-reducer';
 import { signIn, signUp } from './thunk';
 
 export interface UserProfile {
@@ -45,7 +44,7 @@ const user = createSlice({
                 state.requestError = action.payload as RequestError;
                 state.isRequesting = false;
             })
-            
+
             .addCase(signUp.pending, (state, action) => {
                 state.isRequesting = true;
             })

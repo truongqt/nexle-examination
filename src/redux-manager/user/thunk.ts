@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ENDPOINTS, SAVED_USER_PROFILE } from "../../utils/helpers/constants";
-import storage from "../../utils/helpers/storage";
-import { api } from "../../utils/services/apis";
+import { ENDPOINTS, SAVED_USER_PROFILE } from "utils/helpers/constants";
+import storage from "utils/helpers/storage";
+import { api } from "utils/services/apis";
 import { UserProfile } from "./slice";
 
 export interface SignInRequestPayload {
