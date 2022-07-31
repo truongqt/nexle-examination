@@ -224,7 +224,8 @@ const AuthenticationScreen = () => {
       disabled={
         validEmail === 'Invalid email' ||
         passwordStrength?.strength === 'Short' ||
-        !isChecked
+        !isChecked ||
+        !!requestError?.errors?.error
       }
       onPress={onPressSignUpBtn}>
       <Text style={styles.signUpTxt}>Sign Up</Text>

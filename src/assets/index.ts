@@ -21,9 +21,7 @@ export const colors = {
     white_50_opacity: 'rgba(255, 255, 255, 0.5)',
     c647FFF: '#647FFF',
     authen_gradient: {
-        // first: 'green',
         first: 'rgba(29, 34, 56, 0.13)',
-        // second: 'red',
         second: '#000000',
     },
     statusBar: 'white',

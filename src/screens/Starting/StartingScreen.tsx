@@ -7,7 +7,7 @@ import {
   StackParamList,
 } from 'navigation/ScreenProps';
 import React, {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {UserProfile} from 'redux-manager/user/slice';
 import {SAVED_USER_PROFILE} from 'utils/helpers/constants';
 import storage from 'utils/helpers/storage';
@@ -29,7 +29,6 @@ const StartingScreen = () => {
             routes: [{name: CategoriesScreenName}],
           }),
         );
-        //get User Info
       } else {
         navigation.dispatch(
           CommonActions.reset({
@@ -46,5 +45,3 @@ const StartingScreen = () => {
 };
 
 export default StartingScreen;
-
-const styles = StyleSheet.create({});

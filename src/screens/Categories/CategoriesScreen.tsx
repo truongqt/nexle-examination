@@ -20,9 +20,8 @@ import CategoryListItem from './components/CategoryListItem';
 const CategoriesScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const insets = useSafeAreaInsets();
-  const {categories, isRequesting} = useSelector((state: RootState) => state.category);
+  const {categories} = useSelector((state: RootState) => state.category);
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
-
   const fetchCategories = async () => {
     const getCategoriesPayload: GetCategoriesPayload = {
       pageSize: 100,
@@ -64,9 +63,11 @@ const CategoriesScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      {selectedItemIds?.length > 0 && (
-        <HeaderButton rightTitle="Done" onPressRight={onPressDoneBtn} />
-      )}
+      <HeaderButton
+        rightTitle={selectedItemIds?.length > 0 ? 'Done' : ''}
+        onPressRight={onPressDoneBtn}
+        leftIcon={images.arrow_back}
+      />
       <Image source={images.category_bg} style={styles.imageBg} />
       <LinearGradient
         colors={[

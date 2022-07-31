@@ -1,7 +1,8 @@
+import {colors, fonts} from 'assets';
+import React from 'react';
 import {
   Image,
   ImageSourcePropType,
-  Platform,
   StatusBar,
   StyleProp,
   StyleSheet,
@@ -10,9 +11,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React from 'react';
 import {isIos, scale} from 'utils/helpers/device';
-import {colors, fonts, images} from 'assets';
 
 interface Props {
   onPressLeft?: () => void;
