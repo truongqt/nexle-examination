@@ -196,6 +196,10 @@ const AuthenticationScreen = () => {
         boxType="square"
         onCheckColor={colors.white}
         tintColor={colors.c6C66FF}
+        tintColors={{
+          true: colors.c6C66FF,
+          false: colors.c6C66FF
+        }}
         onTintColor={colors.c6C66FF}
         onAnimationType="flat"
         offAnimationType="one-stroke"
@@ -379,6 +383,7 @@ const styles = StyleSheet.create({
     width: scale(23),
     height: scale(23),
     marginRight: scale(8),
+    marginLeft: isIos() ? 0 : scale(-6),
   },
   checkAgeTxt: {
     fontFamily: fonts.Lato.regular,
