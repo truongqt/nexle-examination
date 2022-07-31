@@ -1,16 +1,17 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
-import {UserProfile} from 'redux-manager/user/slice';
-import storage from 'utils/helpers/storage';
-import {SAVED_USER_PROFILE} from 'utils/helpers/constants';
-import {api} from 'utils/services/apis';
-import {DEFAULT_HEADERS} from 'apisauce';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {DEFAULT_HEADERS} from 'apisauce';
 import {
   AuthenticationScreenName,
+  CategoriesScreenName,
   StackParamList,
 } from 'navigation/ScreenProps';
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {UserProfile} from 'redux-manager/user/slice';
+import {SAVED_USER_PROFILE} from 'utils/helpers/constants';
+import storage from 'utils/helpers/storage';
+import {api} from 'utils/services/apis';
 
 const StartingScreen = () => {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -23,6 +24,11 @@ const StartingScreen = () => {
           ...DEFAULT_HEADERS,
           Authorization: 'Bearer ' + userProfile?.token,
         });
+        navigation.dispatch(
+          CommonActions.reset({
+            routes: [{name: CategoriesScreenName}],
+          }),
+        );
         //get User Info
       } else {
         navigation.dispatch(
@@ -33,19 +39,10 @@ const StartingScreen = () => {
       }
     };
 
-    checkAccessToken();
+    // checkAccessToken();
   }, []);
 
-  const gotoSignIn = () => {
-    navigation.navigate(AuthenticationScreenName);
-  };
-
-  return (
-    <View>
-      <Text>StartingScreen</Text>
-      <Button title="Go to Sign In" onPress={gotoSignIn} />
-    </View>
-  );
+  return <View />;
 };
 
 export default StartingScreen;

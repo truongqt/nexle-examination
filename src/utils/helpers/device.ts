@@ -1,5 +1,4 @@
 import { Dimensions, Platform } from 'react-native';
-import { hasNotch } from 'react-native-device-info';
 
 const designWidth = 375;
 
@@ -17,7 +16,6 @@ const scale = (size: number) => {
 const isIos = () => {
   return Platform.OS == 'ios';
 };
-
 
 export {
   device,

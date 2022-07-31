@@ -9,6 +9,7 @@
         "alias": {
           "assets": "./src/assets",
           "components": "./src/components",
+          "hooks": "./src/hooks",
           "navigation": "./src/navigation",
           "redux-manager": "./src/redux-manager",
           "screens": "./src/screens",

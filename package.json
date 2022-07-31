@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.7",
+    "@react-native-community/checkbox": "^0.5.12",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/stack": "^6.2.2",
     "@reduxjs/toolkit": "^1.8.3",
@@ -21,8 +22,6 @@
     "react": "18.0.0",
     "react-native": "0.69.3",
     "react-native-config": "^1.4.6",
-    "react-native-device-info": "^10.0.2",
-    "react-native-elements": "^3.4.2",
     "react-native-flipper": "^0.156.0",
     "react-native-gesture-handler": "^2.5.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
@@ -32,8 +31,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
-    "redux-flipper": "^2.0.2",
-    "validate.js": "^0.13.1"
+    "redux-flipper": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

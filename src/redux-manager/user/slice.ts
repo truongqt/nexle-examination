@@ -29,6 +29,9 @@ const user = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setRequestError(state, {payload}: {payload: RequestError}) {
+            state.requestError = payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -59,5 +62,7 @@ const user = createSlice({
             })
     },
 });
+
+export const {setRequestError} = user.actions;
 
 export default user.reducer;

@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
 import user from "./user/slice";
+import ui from './ui/slice';
+import categories from "./categories/slice";
 
 const appReducer = combineReducers({
     user,
+    ui,
+    categories
 });
 
 const rootReducer = (state: any, action: any) => {
