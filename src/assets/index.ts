@@ -18,7 +18,7 @@ export const fonts = {
 
 export const colors = {
     white: 'white',
-    white_50_opacity: 'rgba(255, 255, 255, 0.5)',
+    white_50_percent: 'rgba(255, 255, 255, 0.5)',
     c647FFF: '#647FFF',
     authen_gradient: {
         first: 'rgba(29, 34, 56, 0.13)',

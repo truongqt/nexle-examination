@@ -119,7 +119,7 @@ const AuthenticationScreen = () => {
       <TextInput
         keyboardType="email-address"
         placeholder="Your email"
-        placeholderTextColor={colors.white_50_opacity}
+        placeholderTextColor={colors.white_50_percent}
         onChangeText={value => onChangeTextEmailInput(value.toString())}
         style={styles.emailInput}
       />
@@ -143,7 +143,7 @@ const AuthenticationScreen = () => {
           maxLength={18}
           secureTextEntry={!showPassword}
           placeholder="Your password"
-          placeholderTextColor={colors.white_50_opacity}
+          placeholderTextColor={colors.white_50_percent}
           onChangeText={value => onChangeTextPasswordInput(value.toString())}
           style={styles.passwordInput}
         />
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     lineHeight: scale(14.4),
     letterSpacing: scale(-0.3),
-    color: colors.white_50_opacity,
+    color: colors.white_50_percent,
   },
   emailInputContainer: {
     marginTop: scale(41),
@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: scale(12),
     lineHeight: scale(19.44),
-    color: colors.white_50_opacity,
+    color: colors.white_50_percent,
   },
   termPrivacyTxt: {
     fontFamily: fonts.Lato.regular,
