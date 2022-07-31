@@ -396,7 +396,6 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     lineHeight: scale(19.44),
     color: colors.white_50_opacity,
-    alignSelf: 'center',
   },
   termPrivacyTxt: {
     fontFamily: fonts.Lato.regular,
@@ -404,7 +403,6 @@ const styles = StyleSheet.create({
     fontSize: scale(12),
     lineHeight: scale(19.44),
     color: colors.c647FFF,
-    alignSelf: 'center',
   },
   bottomContainer: {
     flexDirection: 'row',
