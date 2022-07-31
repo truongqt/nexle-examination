@@ -2,15 +2,15 @@ import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {isRejected} from '@reduxjs/toolkit';
-import { DEFAULT_HEADERS } from 'apisauce';
+import {DEFAULT_HEADERS} from 'apisauce';
 import {colors, fonts, images} from 'assets';
-import { useShowRequestStatus } from 'hooks/useShowRequestStatus';
+import HeaderButton from 'components/HeaderButton/HeaderButton';
+import LoadingModal from 'components/Loading/LoadingModal';
+import {useShowRequestStatus} from 'hooks/useShowRequestStatus';
 import {CategoriesScreenName, StackParamList} from 'navigation/ScreenProps';
 import React, {useState} from 'react';
 import {
-    Button,
   Image,
-  Platform,
   Pressable,
   StatusBar,
   StyleSheet,
@@ -27,9 +27,14 @@ import {RequestError} from 'redux-manager/common-type';
 import {RootState} from 'redux-manager/root-reducer';
 import {AppDispatch} from 'redux-manager/root-store';
 import {setRequestError, UserProfile} from 'redux-manager/user/slice';
-import {signIn, SignInRequestPayload, signUp, SignUpRequestPayload} from 'redux-manager/user/thunk';
+import {
+  // signIn,
+  // SignInRequestPayload,
+  signUp,
+  SignUpRequestPayload,
+} from 'redux-manager/user/thunk';
 import {SAVED_USER_PROFILE} from 'utils/helpers/constants';
-import {device, scale} from 'utils/helpers/device';
+import {device, isIos, scale} from 'utils/helpers/device';
 import {
   checkPasswordStrength,
   checkValidEmail,
@@ -37,13 +42,13 @@ import {
   ValidateEmail,
 } from 'utils/helpers/functions';
 import storage from 'utils/helpers/storage';
-import { api } from 'utils/services/apis';
+import {api} from 'utils/services/apis';
 
 const AuthenticationScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const insets = useSafeAreaInsets();
-  const {userProfile, isRequesting, requestError} = useSelector(
+  const {isRequesting, requestError} = useSelector(
     (state: RootState) => state.user,
   );
   useShowRequestStatus(!!isRequesting);
@@ -59,7 +64,6 @@ const AuthenticationScreen = () => {
   const [validEmail, setValidEmail] = useState<ValidateEmail>('Invalid email');
 
   const onAuthenSuccess = async (profile: UserProfile) => {
-    // console.log('profile: ', JSON.stringify(profile));
     api.setHeaders({
       ...DEFAULT_HEADERS,
       Authorization: 'Bearer ' + profile.token,
@@ -81,31 +85,30 @@ const AuthenticationScreen = () => {
     }
   };
 
-    const onPressSignInBtn = async () => {
-      const signInPayload: SignInRequestPayload = {
-        email,
-        password,
-      };
-      const res = await dispatch(signIn(signInPayload));
-      console.log('signin res: ', JSON.stringify(res))
-      if (!isRejected(res)) {
-        onAuthenSuccess(res.payload as UserProfile);
-        navigation.replace(CategoriesScreenName);
-      }
-    };
+  // const onPressSignInBtn = async () => {
+  //   const signInPayload: SignInRequestPayload = {
+  //     email,
+  //     password,
+  //   };
+  //   const res = await dispatch(signIn(signInPayload));
+  //   if (!isRejected(res)) {
+  //     onAuthenSuccess(res.payload as UserProfile);
+  //     navigation.replace(CategoriesScreenName);
+  //   }
+  // };
 
   const onChangeTextEmailInput = (value: string) => {
     setEmail(value);
     const validEmailInput = checkValidEmail(value);
     setValidEmail(validEmailInput);
-    dispatch(setRequestError({} as RequestError));
+    !!requestError?.errors && dispatch(setRequestError({} as RequestError));
   };
 
   const onChangeTextPasswordInput = (value: string) => {
     const passStrength = checkPasswordStrength(value);
     setPasswordStrength(passStrength);
     setPassword(value);
-    dispatch(setRequestError({} as RequestError));
+    !!requestError?.errors && dispatch(setRequestError({} as RequestError));
   };
 
   const renderEmailInput = () => (
@@ -118,7 +121,7 @@ const AuthenticationScreen = () => {
         placeholder="Your email"
         placeholderTextColor={colors.white_50_opacity}
         onChangeText={value => onChangeTextEmailInput(value.toString())}
-        style={!!email ? styles.textInput : styles.textInputNull}
+        style={styles.emailInput}
       />
       <View style={styles.validationErrorContainer}>
         <Text style={styles.validationErrorTxt}>
@@ -142,7 +145,7 @@ const AuthenticationScreen = () => {
           placeholder="Your password"
           placeholderTextColor={colors.white_50_opacity}
           onChangeText={value => onChangeTextPasswordInput(value.toString())}
-          style={!!password ? styles.textInput : styles.textInputNull}
+          style={styles.passwordInput}
         />
         <TouchableOpacity
           onPress={() => {
@@ -229,18 +232,17 @@ const AuthenticationScreen = () => {
     </TouchableOpacity>
   );
 
-  const renderSignInBtn = () => (
-    <TouchableOpacity
-      style={styles.bottomContainer}
-      disabled={
-        validEmail === 'Invalid email' ||
-        passwordStrength?.strength === 'Short' 
-      }
-      onPress={onPressSignInBtn}>
-      <Text style={styles.signUpTxt}>Sign In</Text>
-      <Image source={images.sign_in} style={styles.signInImage} />
-    </TouchableOpacity>
-  );
+  // const renderSignInBtn = () => (
+  //   <TouchableOpacity
+  //     style={styles.bottomContainer}
+  //     disabled={
+  //       validEmail === 'Invalid email' || passwordStrength?.strength === 'Short'
+  //     }
+  //     onPress={onPressSignInBtn}>
+  //     <Text style={styles.signUpTxt}>Sign In</Text>
+  //     <Image source={images.sign_in} style={styles.signInImage} />
+  //   </TouchableOpacity>
+  // );
 
   return (
     <KeyboardAwareScrollView
@@ -248,6 +250,7 @@ const AuthenticationScreen = () => {
       keyboardShouldPersistTaps="handled"
       style={styles.container}>
       <Image source={images.authen_bg} style={styles.imageBg} />
+      <HeaderButton leftIcon={images.arrow_back} />
       <LinearGradient
         colors={[colors.authen_gradient.first, colors.authen_gradient.second]}
         locations={[0.0962, 0.5296]}
@@ -279,12 +282,11 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     width: '100%',
-    height:
-      Platform.OS === 'ios'
-        ? device.h
-        : StatusBar.currentHeight
-        ? device.h - StatusBar.currentHeight
-        : 0,
+    height: isIos()
+      ? device.h
+      : StatusBar.currentHeight
+      ? device.h - StatusBar.currentHeight
+      : 0,
     paddingHorizontal: scale(24),
     justifyContent: 'flex-end',
     ...StyleSheet.absoluteFillObject,
@@ -318,7 +320,19 @@ const styles = StyleSheet.create({
   passwordInputContainer: {
     marginTop: scale(18),
   },
-  textInput: {
+  emailInput: {
+    fontFamily: fonts.Lato.regular,
+    fontWeight: '400',
+    fontSize: scale(16),
+    lineHeight: scale(19.2),
+    letterSpacing: scale(-0.3),
+    color: colors.white,
+    borderBottomColor: colors.c647FFF,
+    borderBottomWidth: scale(1),
+    marginTop: scale(15),
+    paddingBottom: scale(12),
+  },
+  passwordInput: {
     fontFamily: fonts.Lato.regular,
     fontWeight: '400',
     fontSize: scale(16),
@@ -330,21 +344,9 @@ const styles = StyleSheet.create({
     marginTop: scale(15),
     paddingBottom: scale(12),
   },
-  textInputNull: {
-    fontFamily: fonts.Lato.regular,
-    fontWeight: '400',
-    fontSize: scale(12),
-    lineHeight: scale(19.2),
-    letterSpacing: scale(-0.3),
-    color: colors.white_50_opacity,
-    borderBottomColor: colors.c647FFF,
-    borderBottomWidth: 1,
-    marginTop: scale(15),
-    paddingBottom: scale(12),
-  },
   toggleShowPasswordBtn: {
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 0 : scale(5),
+    bottom: isIos() ? 0 : scale(5),
     right: 0,
     paddingVertical: scale(15),
     paddingLeft: scale(10),
@@ -408,7 +410,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: scale(30),
     alignItems: 'center',
-    // backgroundColor: 'red'
   },
   signUpBtn: {
     paddingVertical: scale(15),

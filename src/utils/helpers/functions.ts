@@ -1,6 +1,6 @@
 import { colors } from "assets";
 
-export type PasswordStrength = 'Short' | 'Weak' | 'Fair' | 'Good' | 'Strong';
+export type PasswordStrength = 'Short' | 'Weak' | 'Fair' | 'Good' | 'Strong' | '';
 
 export interface PasswordStrengths {
     strength: PasswordStrength;
@@ -38,6 +38,13 @@ export const checkPasswordStrength = (password: string): PasswordStrengths => {
             strength: "Weak",
             color: colors.error.week,
             barWidth: '25%'
+        }
+    }
+    else if(password === ''){
+        return {
+            strength: '',
+            color: colors.error.good,
+            barWidth: '100%'
         }
     }
     else {

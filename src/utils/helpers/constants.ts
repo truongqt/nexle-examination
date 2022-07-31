@@ -7,3 +7,4 @@ export const ENDPOINTS = {
 }
 
 export const SAVED_USER_PROFILE = 'SAVED_USER_PROFILE';
+export const SAVED_SELECTED_ITEM_IDS = 'SAVED_SELECTED_ITEM_IDS';

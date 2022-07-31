@@ -1,7 +1,10 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import LoadingModal from 'components/Loading/LoadingModal';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
+import {RootState} from 'redux-manager/root-reducer';
 import AuthenticationScreen from 'screens/Authentication/AuthenticationScreen';
 import CategoriesScreen from 'screens/Categories/CategoriesScreen';
 import {AuthenticationScreenName, CategoriesScreenName} from './ScreenProps';
@@ -9,6 +12,16 @@ import {AuthenticationScreenName, CategoriesScreenName} from './ScreenProps';
 const Stack = createStackNavigator();
 
 const AppNavigation = () => {
+  const {showRequestStatus} = useSelector((state: RootState) => state.ui);
+  const [showLoadingModal, setShowLoadingModal] = useState(false);
+
+  useEffect(() => {
+    setShowLoadingModal(!!showRequestStatus);
+    return () => {
+      setShowLoadingModal(false);
+    };
+  }, [showRequestStatus]);
+
   return (
     <>
       <NavigationContainer>
@@ -28,6 +41,7 @@ const AppNavigation = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      {showLoadingModal ? <LoadingModal /> : null}
     </>
   );
 };

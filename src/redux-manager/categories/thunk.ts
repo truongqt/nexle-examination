@@ -7,7 +7,7 @@ export interface GetCategoriesPayload {
     pageNumber: number;
 };
 
-export const getCategory = createAsyncThunk('getCategory', async (requestPayload: GetCategoriesPayload, { rejectWithValue }) => {
+export const getCategories = createAsyncThunk('getCategories', async (requestPayload: GetCategoriesPayload, { rejectWithValue }) => {
     const response = await api.get(ENDPOINTS.GET_CATEGORIES, requestPayload);
     if (response.ok) {
         return response.data;

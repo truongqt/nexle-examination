@@ -1,46 +1,49 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { CommonFetchParams, RequestError } from 'redux-manager/common-type';
-import { getCategory } from './thunk';
+import { getCategories } from './thunk';
 
 export interface CategoryItem {
     _id: string;
     name: string;
 }
 
-export interface Category {
+// export interface Category {
+//     categories: CategoryItem[];
+//     totalCount: number;
+// }
+
+interface InitialStates extends CommonFetchParams {
     categories: CategoryItem[];
     totalCount: number;
 }
 
-interface InitialStates extends CommonFetchParams {
-    category: Category;
-}
-
 const initialState: InitialStates = {
-    category: {} as Category,
+    categories: [],
+    totalCount: 0,
 };
 
-const categories = createSlice({
-    name: 'categories',
+const category = createSlice({
+    name: 'category',
     initialState,
     reducers: {
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getCategory.pending, (state, action) => {
-                console.log('getCategory.pending: ', JSON.stringify(action))
+            .addCase(getCategories.pending, (state, action) => {
+                // console.log('getCategories.pending: ', JSON.stringify(action))
                 state.isRequesting = true;
             })
-            .addCase(getCategory.fulfilled, (state, action) => {
-                console.log('getCategory.fulfilled: ', JSON.stringify(action))
-
-                state.category = action.payload as Category;
+            .addCase(getCategories.fulfilled, (state, action) => {
+                // console.log('getCategories.fulfilled: ', JSON.stringify(action))
+                const payload = action.payload as InitialStates;
+                state.categories = payload.categories;
+                state.totalCount = payload.totalCount;
                 state.requestError = undefined;
                 state.isRequesting = false;
             })
-            .addCase(getCategory.rejected, (state, action) => {
-                console.log('getCategory.rejected: ', JSON.stringify(action))
+            .addCase(getCategories.rejected, (state, action) => {
+                // console.log('getCategories.rejected: ', JSON.stringify(action))
 
                 state.requestError = action.payload as RequestError;
                 state.isRequesting = false;
@@ -48,4 +51,4 @@ const categories = createSlice({
     },
 });
 
-export default categories.reducer;
+export default category.reducer;
