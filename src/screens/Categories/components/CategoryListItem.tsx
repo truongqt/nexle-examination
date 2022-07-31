@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: scale(109),
     height: scale(71),
     borderWidth: scale(1),
-    borderColor: colors.white_50_percent,
+    borderColor: colors.white_12_percent,
     borderRadius: scale(8),
     justifyContent: 'center',
   },
