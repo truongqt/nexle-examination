@@ -22,15 +22,15 @@ const CategoriesScreen = () => {
   const insets = useSafeAreaInsets();
   const {categories} = useSelector((state: RootState) => state.category);
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
-  const fetchCategories = async () => {
-    const getCategoriesPayload: GetCategoriesPayload = {
-      pageSize: 100,
-      pageNumber: 0,
-    };
-    await dispatch(getCategories(getCategoriesPayload));
-  };
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      const getCategoriesPayload: GetCategoriesPayload = {
+        pageSize: 100,
+        pageNumber: 0,
+      };
+      await dispatch(getCategories(getCategoriesPayload));
+    };
     fetchCategories();
   }, []);
 
