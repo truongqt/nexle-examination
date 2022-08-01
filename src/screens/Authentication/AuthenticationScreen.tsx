@@ -182,6 +182,9 @@ const AuthenticationScreen = () => {
           ]}>
           {requestError?.errors?.error?.includes('Error: Wrong email/password')
             ? requestError?.errors?.error
+            : requestError?.errors?.password?.length &&
+              requestError?.errors?.password?.length > 0
+            ? requestError?.errors?.password[0]
             : password?.length > 0 && passwordStrength.strength}
         </Text>
       </View>
@@ -198,7 +201,7 @@ const AuthenticationScreen = () => {
         tintColor={colors.c6C66FF}
         tintColors={{
           true: colors.c6C66FF,
-          false: colors.c6C66FF
+          false: colors.c6C66FF,
         }}
         onTintColor={colors.c6C66FF}
         onAnimationType="flat"

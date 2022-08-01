@@ -1,8 +1,9 @@
 export interface RequestError {
   errors: {
-    message: string[];
-    error: string;
-    stack: string;
+    password?: string[];
+    message?: string[];
+    error?: string;
+    stack?: string;
   }
   statusCode: number;
   success: boolean;
