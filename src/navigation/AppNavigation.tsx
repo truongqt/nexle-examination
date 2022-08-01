@@ -7,7 +7,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from 'redux-manager/root-reducer';
 import AuthenticationScreen from 'screens/Authentication/AuthenticationScreen';
 import CategoriesScreen from 'screens/Categories/CategoriesScreen';
-import {AuthenticationScreenName, CategoriesScreenName} from './ScreenProps';
+// import StartingScreen from 'screens/Starting/StartingScreen';
+import {AuthenticationScreenName, CategoriesScreenName, StartingScreenName} from './ScreenProps';
 
 const Stack = createStackNavigator();
 

@@ -38,7 +38,7 @@ const StartingScreen = () => {
       }
     };
 
-    // checkAccessToken();
+    checkAccessToken();
   }, []);
 
   return <View />;

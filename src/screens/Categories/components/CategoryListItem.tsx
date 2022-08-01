@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     borderColor: colors.white_12_percent,
     borderRadius: scale(8),
     justifyContent: 'center',
+    marginHorizontal: scale(4),
   },
   nameTxt: {
     fontFamily: fonts.Lato.regular,

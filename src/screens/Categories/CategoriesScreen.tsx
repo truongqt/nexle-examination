@@ -1,11 +1,20 @@
+import {isFulfilled} from '@reduxjs/toolkit';
 import {colors, fonts, images} from 'assets';
 import HeaderButton from 'components/HeaderButton/HeaderButton';
 import {includes, remove} from 'lodash';
-import React, {useEffect, useState} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  FlatList,
+  Image,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
+import {Category} from 'redux-manager/categories/slice';
 import {
   getCategories,
   GetCategoriesPayload,
@@ -20,19 +29,59 @@ import CategoryListItem from './components/CategoryListItem';
 const CategoriesScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const insets = useSafeAreaInsets();
-  const {categories} = useSelector((state: RootState) => state.category);
+  const {categories, isRequesting} = useSelector(
+    (state: RootState) => state.category,
+  );
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
+  const initGetCategoriesPayload: GetCategoriesPayload = {
+    pageSize: 30,
+    pageNumber: 0,
+  };
+  const getCategoriesPayload = useRef<GetCategoriesPayload>({
+    ...initGetCategoriesPayload,
+  });
+  const canLoadMore = useRef(true);
+
+  const fetchCategories = async (isLoadMore: boolean) => {
+    const res = await dispatch(
+      getCategories({
+        ...getCategoriesPayload.current,
+        isLoadMore,
+      }),
+    );
+    const categoryTemp = res.payload as Category;
+    if (
+      isFulfilled(res) &&
+      isLoadMore &&
+      categoryTemp?.categories?.length === 0
+    ) {
+      canLoadMore.current = false;
+    }
+  };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const getCategoriesPayload: GetCategoriesPayload = {
-        pageSize: 100,
-        pageNumber: 0,
-      };
-      await dispatch(getCategories(getCategoriesPayload));
+    fetchCategories(false);
+
+    return () => {
+      getCategoriesPayload.current = {...initGetCategoriesPayload};
+      canLoadMore.current = false;
     };
-    fetchCategories();
   }, []);
+
+  const onRefresh = async () => {
+    if (!isRequesting) {
+      canLoadMore.current = true;
+      getCategoriesPayload.current.pageNumber = 0;
+      await fetchCategories(false);
+    }
+  };
+
+  const loadMore = async () => {
+    if (canLoadMore.current) {
+      getCategoriesPayload.current.pageNumber += 1;
+      await fetchCategories(true);
+    }
+  };
 
   const onPressItem = (id: string) => {
     const selectedItemIdsTemp = [...selectedItemIds];
@@ -76,12 +125,7 @@ const CategoriesScreen = () => {
         ]}
         locations={[0.0343, 0.345]}
         angle={180.17}
-        style={[
-          styles.linearGradient,
-          {
-            paddingBottom: scale(24),
-          },
-        ]}></LinearGradient>
+        style={styles.linearGradient}></LinearGradient>
       {renderHeaderTxt()}
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -98,11 +142,15 @@ const CategoriesScreen = () => {
         contentContainerStyle={{
           paddingBottom: scale(15) + insets.bottom / 2,
         }}
-        columnWrapperStyle={{
-          marginTop: scale(8),
-          paddingHorizontal: scale(16),
-          justifyContent: 'space-between',
-        }}
+        columnWrapperStyle={styles.columnWrapper}
+        refreshControl={
+          <RefreshControl
+            refreshing={!!isRequesting}
+            onRefresh={onRefresh}
+            colors={[colors.error.good]}
+          />
+        }
+        onEndReached={loadMore}
       />
     </View>
   );
@@ -113,6 +161,7 @@ export default CategoriesScreen;
 const styles = StyleSheet.create({
   linearGradient: {
     width: '100%',
+    paddingBottom: scale(24),
     ...StyleSheet.absoluteFillObject,
   },
   imageBg: {
@@ -140,5 +189,10 @@ const styles = StyleSheet.create({
     marginLeft: scale(16),
     marginRight: scale(64),
     paddingBottom: scale(15),
+  },
+  columnWrapper: {
+    marginTop: scale(8),
+    paddingHorizontal: scale(12),
+    justifyContent: 'flex-start',
   },
 });

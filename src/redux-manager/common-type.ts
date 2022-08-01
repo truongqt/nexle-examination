@@ -10,6 +10,7 @@ export interface RequestError {
 
 export interface CommonFetchParams {
   isRequesting?: boolean;
+  isLoadMore?: boolean;
   requestError?: RequestError;
   payload?: any;
   response?: any;

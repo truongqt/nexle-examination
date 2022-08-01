@@ -8,9 +8,12 @@ export interface CategoryItem {
     name: string;
 }
 
-interface InitialStates extends CommonFetchParams {
+export interface Category {
     categories: CategoryItem[];
     totalCount: number;
+}
+
+interface InitialStates extends Category, CommonFetchParams {
 }
 
 const initialState: InitialStates = {
@@ -29,9 +32,16 @@ const category = createSlice({
                 state.isRequesting = true;
             })
             .addCase(getCategories.fulfilled, (state, action) => {
-                const payload = action.payload as InitialStates;
-                state.categories = payload.categories;
-                state.totalCount = payload.totalCount;
+                const { isLoadMore } = action.meta.arg;
+                const payload = action.payload as Category;
+                if (!isLoadMore) {
+                    state.categories = payload.categories;
+                    state.totalCount = payload.totalCount;
+                }
+                else {
+                    state.categories = [...state.categories, ...payload.categories];
+                }
+
                 state.requestError = undefined;
                 state.isRequesting = false;
             })
