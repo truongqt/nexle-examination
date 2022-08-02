@@ -2,7 +2,7 @@ import {isFulfilled} from '@reduxjs/toolkit';
 import {colors, fonts, images} from 'assets';
 import HeaderButton from 'components/HeaderButton/HeaderButton';
 import {includes, remove} from 'lodash';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -83,18 +83,20 @@ const CategoriesScreen = () => {
     }
   };
 
-  const onPressItem = (id: string) => {
-    const selectedItemIdsTemp = [...selectedItemIds];
-    if (includes(selectedItemIdsTemp, id)) {
-      remove(
-        selectedItemIdsTemp,
-        selectedItemIdTemp => selectedItemIdTemp === id,
-      );
-    } else {
-      selectedItemIdsTemp.push(id);
-    }
-    setSelectedItemIds(selectedItemIdsTemp);
-  };
+  const onPressItem = useCallback((id: string) => {
+    setSelectedItemIds(selectedItemIds => {
+      const selectedItemIdsTemp = [...selectedItemIds];
+      if (includes(selectedItemIdsTemp, id)) {
+        remove(
+          selectedItemIdsTemp,
+          tempId => tempId === id,
+        );
+      } else {
+        selectedItemIdsTemp.push(id);
+      }
+      return selectedItemIdsTemp;
+    })
+  }, []);
 
   const onPressDoneBtn = async () => {
     await storage.save(SAVED_SELECTED_ITEM_IDS, selectedItemIds);
