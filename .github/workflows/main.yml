@@ -32,3 +32,10 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build Android Release
         run: cd android && ./gradlew assembleRelease
+        
+      # Runs a set of commands using the runners shell
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with: 
+          name: release
+          path: android/app/build/outputs/apk/release/app-release.apk
