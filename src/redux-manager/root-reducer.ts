@@ -1,7 +1,9 @@
-import { combineReducers } from "redux";
+import { combineReducers, Reducer } from "redux";
 import user from "./user/slice";
 import ui from './ui/slice';
 import category from "./categories/slice";
+import { useDispatch } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 
 const appReducer = combineReducers({
     user,

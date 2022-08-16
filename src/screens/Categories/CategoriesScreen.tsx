@@ -1,5 +1,6 @@
 import {isFulfilled} from '@reduxjs/toolkit';
 import {colors, fonts, images} from 'assets';
+import CText from 'components/CText/CText';
 import HeaderButton from 'components/HeaderButton/HeaderButton';
 import {includes, remove} from 'lodash';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
@@ -49,6 +50,9 @@ const CategoriesScreen = () => {
         isLoadMore,
       }),
     );
+
+    
+
     const categoryTemp = res.payload as Category;
     if (
       isFulfilled(res) &&
@@ -104,7 +108,10 @@ const CategoriesScreen = () => {
 
   const renderHeaderTxt = () => (
     <View>
-      <Text style={styles.headerTxt}>Wellcome to Nexle Entrance Test</Text>
+      {/* <Text style={styles.headerTxt}>Wellcome to Nexle Entrance Test</Text> */}
+      <CText
+      variant='header'
+      >Wellcome to Nexle Entrance Test</CText>
       <Text style={styles.subHeaderTxt}>
         Please select categories what you would like to see on your feed. You
         can set this later on Filter.

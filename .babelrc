@@ -12,10 +12,12 @@
           "hooks": "./src/hooks",
           "navigation": "./src/navigation",
           "redux-manager": "./src/redux-manager",
+          "mobx": "./src/mobx",
           "screens": "./src/screens",
           "utils": "./src/utils",
           "helpers": "./src/utils/helpers",
-          "services": "./src/utils/services"
+          "services": "./src/utils/services",
+          "themes": "./src/utils/themes"
         }
       }
     ]

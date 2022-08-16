@@ -1,15 +1,18 @@
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {isRejected} from '@reduxjs/toolkit';
+import {isFulfilled, isRejected} from '@reduxjs/toolkit';
+import { createTheme, useTheme } from '@shopify/restyle';
 import {DEFAULT_HEADERS} from 'apisauce';
 import {colors, fonts, images} from 'assets';
+import CText from 'components/CText/CText';
 import HeaderButton from 'components/HeaderButton/HeaderButton';
 import LoadingModal from 'components/Loading/LoadingModal';
 import {useShowRequestStatus} from 'hooks/useShowRequestStatus';
 import {CategoriesScreenName, StackParamList} from 'navigation/ScreenProps';
 import React, {useState} from 'react';
 import {
+  Button,
   Image,
   Pressable,
   StatusBar,
@@ -28,8 +31,8 @@ import {RootState} from 'redux-manager/root-reducer';
 import {AppDispatch} from 'redux-manager/root-store';
 import {setRequestError, UserProfile} from 'redux-manager/user/slice';
 import {
-  // signIn,
-  // SignInRequestPayload,
+  signIn,
+  SignInRequestPayload,
   signUp,
   SignUpRequestPayload,
 } from 'redux-manager/user/thunk';
@@ -43,9 +46,11 @@ import {
 } from 'utils/helpers/functions';
 import storage from 'utils/helpers/storage';
 import {api} from 'utils/services/apis';
+import { Theme } from 'utils/themes/theme';
 
 const AuthenticationScreen = () => {
   const dispatch: AppDispatch = useDispatch();
+
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const insets = useSafeAreaInsets();
   const {isRequesting, requestError} = useSelector(
@@ -83,19 +88,20 @@ const AuthenticationScreen = () => {
       onAuthenSuccess(res.payload as UserProfile);
       navigation.replace(CategoriesScreenName);
     }
+    
   };
 
-  // const onPressSignInBtn = async () => {
-  //   const signInPayload: SignInRequestPayload = {
-  //     email,
-  //     password,
-  //   };
-  //   const res = await dispatch(signIn(signInPayload));
-  //   if (!isRejected(res)) {
-  //     onAuthenSuccess(res.payload as UserProfile);
-  //     navigation.replace(CategoriesScreenName);
-  //   }
-  // };
+  const onPressSignInBtn = async () => {
+    const signInPayload: SignInRequestPayload = {
+      email,
+      password,
+    };
+    const res = await dispatch(signIn(signInPayload));
+    if (isFulfilled(res)) {
+      onAuthenSuccess(res.payload as UserProfile);
+      navigation.replace(CategoriesScreenName);
+    }
+  };
 
   const onChangeTextEmailInput = (value: string) => {
     setEmail(value);
@@ -240,17 +246,17 @@ const AuthenticationScreen = () => {
     </TouchableOpacity>
   );
 
-  // const renderSignInBtn = () => (
-  //   <TouchableOpacity
-  //     style={styles.bottomContainer}
-  //     disabled={
-  //       validEmail === 'Invalid email' || passwordStrength?.strength === 'Short'
-  //     }
-  //     onPress={onPressSignInBtn}>
-  //     <Text style={styles.signUpTxt}>Sign In</Text>
-  //     <Image source={images.sign_in} style={styles.signInImage} />
-  //   </TouchableOpacity>
-  // );
+  const renderSignInBtn = () => (
+    <TouchableOpacity
+      style={styles.bottomContainer}
+      disabled={
+        validEmail === 'Invalid email' || passwordStrength?.strength === 'Short'
+      }
+      onPress={onPressSignInBtn}>
+      <Text style={styles.signUpTxt}>Sign In</Text>
+      <Image source={images.sign_in} style={styles.signInImage} />
+    </TouchableOpacity>
+  );
 
   return (
     <KeyboardAwareScrollView
@@ -269,13 +275,27 @@ const AuthenticationScreen = () => {
             paddingBottom: scale(24) + insets.bottom / 2,
           },
         ]}>
-        <Text style={styles.headerTxt}>Let’s get you started!</Text>
+        <Text style={[styles.headerTxt, {
+        }]}>Let’s get you started!</Text>
+
+
+        {/* <CText
+         variant='header'
+        //  color='white'
+        style={{
+          // paddingTop: scale(200)
+        }}
+        p='l'
+
+        >
+          Test text111
+        </CText> */}
         {renderEmailInput()}
         {renderPasswordInput()}
         {renderCheckAge()}
         {renderAgreeWithTermPrivactyTxt()}
         {renderSignUpBtn()}
-        {/* {renderSignInBtn()} */}
+        {renderSignInBtn()}
       </LinearGradient>
     </KeyboardAwareScrollView>
   );
@@ -309,7 +329,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: scale(22),
     lineHeight: scale(26.4),
-    color: colors.white,
+    color: colors.white
   },
   titleContainer: {
     height: scale(14.4),

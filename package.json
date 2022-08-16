@@ -15,12 +15,17 @@
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/stack": "^6.2.2",
     "@reduxjs/toolkit": "^1.8.3",
+    "@shopify/restyle": "^2.1.0",
     "@types/lodash": "^4.14.182",
+    "@types/node": "^18.7.3",
     "@types/react-redux": "^7.1.24",
     "apisauce": "^2.1.5",
     "axios": "^0.27.2",
     "babel-plugin-module-resolver": "^4.1.0",
     "lodash": "^4.17.21",
+    "mobx": "^6.6.1",
+    "mobx-react": "^7.5.2",
+    "prop-types": "^15.8.1",
     "react": "18.0.0",
     "react-native": "0.69.3",
     "react-native-config": "^1.4.6",
@@ -34,7 +39,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
-    "redux-flipper": "^2.0.2"
+    "redux-flipper": "^2.0.2",
+    "redux-resource": "^3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
