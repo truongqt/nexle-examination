@@ -1,67 +1,83 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { SecondScreenName, StackParamList } from 'navigation/ScreenProps'
-import { StackNavigationProp } from '@react-navigation/stack'
-import CView from 'components/CView/CView'
-import CText from 'components/CText/CText'
-import MyToast from 'components/CustomModule/ToastExp'
+import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {useCalculator} from 'util/calculator';
+import {Button} from 'components/Button';
 
-import { SignInRequestPayload } from 'mobx/UserStore'
-
-const FirstScreen = () => {
-    const navigation = useNavigation<StackNavigationProp<StackParamList>>();
-
-    const onPressGoToSecond = () => {
-        navigation.navigate(SecondScreenName);  
-    }
-
-    const onPressSignInBtn = () => {
-      const SignInRequestPayload: SignInRequestPayload = {
-        email: 'User2@gmail.com',
-        password: 'User2@gmail.com',
-      };
-    }
-
-    const onPressShowShortToast = () => {
-      MyToast.show('Short', MyToast.SHORT);
-    };
-
-    const onPressShowLongToast = () => {
-      MyToast.show('Long', 2222);
-    }
+const MyCalculator = () => {
+  const {
+    currentValue,
+    pressNumber,
+    pressOperator,
+    pressClear,
+    pressPosNeg,
+    pressPercentage,
+    pressEqual,
+  } = useCalculator();
 
   return (
-    <CView 
-    p='xl'
-    alignItems='center'
-    style={{
-        backgroundColor : 'gold'
-    }}
-    >
-      <CText 
-      variant='default'
-      >FirstScreen</CText>
-        <Button 
-        title='Go To Second'
-        onPress={onPressGoToSecond}
-        />
-        <Button 
-        title='Sign In'
-        onPress={onPressSignInBtn}
-        />
-        <Button 
-        title='Show Long Toast'
-        onPress={onPressShowLongToast}
-        />
-        <Button 
-        title='Show Short Toast'
-        onPress={onPressShowShortToast}
-        />
-    </CView>
-  )
-}
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView>
+        <Text style={styles.value}>
+          {parseFloat(currentValue).toLocaleString()}
+        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Button text="C" theme="secondary" onPress={() => pressClear()} />
+          <Button text="+/-" theme="secondary" onPress={() => pressPosNeg()} />
+          <Button
+            text="%"
+            theme="secondary"
+            onPress={() => pressPercentage()}
+          />
+          <Button text="/" theme="accent" onPress={() => pressOperator('/')} />
+        </View>
 
-export default FirstScreen
+        <View style={{flexDirection: 'row'}}>
+          <Button text="7" onPress={() => pressNumber('7')} />
+          <Button text="8" onPress={() => pressNumber('8')} />
+          <Button text="9" onPress={() => pressNumber('9')} />
+          <Button text="x" theme="accent" onPress={() => pressOperator('*')} />
+        </View>
 
-const styles = StyleSheet.create({})
+        <View style={{flexDirection: 'row'}}>
+          <Button text="4" onPress={() => pressNumber('4')} />
+          <Button text="5" onPress={() => pressNumber('5')} />
+          <Button text="6" onPress={() => pressNumber('6')} />
+          <Button text="-" theme="accent" onPress={() => pressOperator('-')} />
+        </View>
+
+        <View style={{flexDirection: 'row'}}>
+          <Button text="1" onPress={() => pressNumber('1')} />
+          <Button text="2" onPress={() => pressNumber('2')} />
+          <Button text="3" onPress={() => pressNumber('3')} />
+          <Button text="+" theme="accent" onPress={() => pressOperator('+')} />
+        </View>
+
+        <View style={{flexDirection: 'row'}}>
+          <Button text="0" size="double" onPress={() => pressNumber('0')} />
+          <Button text="." onPress={() => pressNumber('.')} />
+          <Button text="=" theme="accent" onPress={() => pressEqual()} />
+        </View>
+      </SafeAreaView>
+    </View>
+  );
+};
+
+export default MyCalculator;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#202020',
+    justifyContent: 'flex-end',
+    // borderColor: 'red',
+    // borderWidth: 2
+  },
+  value: {
+    color: '#fff',
+    fontSize: 40,
+    textAlign: 'right',
+    marginRight: 20,
+    marginBottom: 10,
+  },
+});

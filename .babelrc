@@ -15,6 +15,7 @@
           "mobx": "./src/mobx",
           "screens": "./src/screens",
           "utils": "./src/utils",
+          "util": "./src/util",
           "helpers": "./src/utils/helpers",
           "services": "./src/utils/services",
           "themes": "./src/utils/themes"

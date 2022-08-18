@@ -28,6 +28,7 @@
     "prop-types": "^15.8.1",
     "react": "18.0.0",
     "react-native": "0.69.3",
+    "react-native-calculator": "^0.5.2",
     "react-native-config": "^1.4.6",
     "react-native-device-info": "^10.0.2",
     "react-native-flipper": "^0.156.0",
