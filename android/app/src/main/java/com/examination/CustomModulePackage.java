@@ -1,4 +1,4 @@
-package com.examination;
+package com.myrncalculator;
 
 import androidx.annotation.NonNull;
 
